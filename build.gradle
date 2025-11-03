@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'com.github.JulianSanti28'
-version = '0.0.5'
+version = '0.0.6'
 description = 'Monitoring Starter Library - Auto-exposes /health and /metrics endpoints'
 
 java {
@@ -17,22 +17,34 @@ java {
 	withJavadocJar()
 }
 
+// Repositorios para dependencias
 repositories {
 	mavenCentral()
 }
 
+// Dependencias
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web:3.2.2'
 }
 
+// Configuración de tests
 tasks.named('test') {
 	useJUnitPlatform()
 }
 
+// Evitar que Spring Boot cree un JAR ejecutable
 tasks.named('bootJar') {
 	enabled = false
 }
 
+// Forzar nombre correcto del JAR principal
+tasks.named('jar') {
+	enabled = true
+	archiveBaseName.set('monitoring-tool-commons-library')
+	archiveVersion.set(project.version)
+}
+
+// Configuración de publicación Maven
 publishing {
 	publications {
 		mavenJava(MavenPublication) {
