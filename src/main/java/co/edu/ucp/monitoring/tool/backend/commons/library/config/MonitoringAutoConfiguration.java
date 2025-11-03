@@ -1,56 +1,25 @@
 package co.edu.ucp.monitoring.tool.backend.commons.library.config;
 
-import co.edu.ucp.monitoring.tool.backend.commons.library.controller.HealthController;
-import co.edu.ucp.monitoring.tool.backend.commons.library.controller.MetricsController;
 import co.edu.ucp.monitoring.tool.backend.commons.library.service.SystemMetricsService;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * Auto-configuration class for the Monitoring Tool Commons Library.
  * <p>
- * Provides beans for system metrics service, health controller, and metrics controller.
- * This allows any Spring Boot application that includes this library to automatically
- * expose /health and /metrics endpoints.
+ * Automatically exposes /health and /metrics endpoints in any Spring Boot web application.
  */
-@Configuration
+@AutoConfiguration
+@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
+@ComponentScan(basePackages = "co.edu.ucp.monitoring.tool.backend.commons.library.controller")
 public class MonitoringAutoConfiguration {
 
-    /**
-     * Default constructor.
-     */
-    public MonitoringAutoConfiguration() {
-        super();
-    }
-
-    /**
-     * Provides a SystemMetricsService bean.
-     *
-     * @return a new SystemMetricsService instance
-     */
     @Bean
+    @ConditionalOnMissingBean
     public SystemMetricsService systemMetricsService() {
         return new SystemMetricsService();
-    }
-
-    /**
-     * Provides a HealthController bean.
-     *
-     * @return a new HealthController instance
-     */
-    @Bean
-    public HealthController healthController() {
-        return new HealthController();
-    }
-
-    /**
-     * Provides a MetricsController bean using the provided SystemMetricsService.
-     *
-     * @param systemMetricsService the service used to collect system metrics
-     * @return a new MetricsController instance
-     */
-    @Bean
-    public MetricsController metricsController(SystemMetricsService systemMetricsService) {
-        return new MetricsController(systemMetricsService);
     }
 }

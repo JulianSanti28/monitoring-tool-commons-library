@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'com.github.JulianSanti28'
-version = '0.0.7'  // <-- Cambia aquí también
+version = '0.0.8'
 description = 'Monitoring Starter Library - Auto-exposes /health and /metrics endpoints'
 
 java {
@@ -29,7 +29,6 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
-// === CLAVE: Deshabilitar bootJar y renombrar el JAR ===
 bootJar {
 	enabled = false
 }
