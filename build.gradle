@@ -1,20 +1,15 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.2.2'
-	id 'io.spring.dependency-management' version '1.1.7'
 	id 'maven-publish'
 }
 
-group = 'com.github.JulianSanti28'
-version = '0.0.11'
-description = 'Monitoring Starter Library - Auto-exposes /health and /metrics endpoints'
+group = 'co.example.starter'
+version = '0.1.1'
 
 java {
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(21)
 	}
-	withSourcesJar()
-	withJavadocJar()
 }
 
 repositories {
@@ -22,62 +17,15 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web:3.2.2'
+	implementation 'org.springframework.boot:spring-boot-autoconfigure:3.5.3'
+	implementation 'org.springframework.boot:spring-boot-starter-web:3.5.3'
+	compileOnly 'org.springframework.boot:spring-boot-configuration-processor:3.5.3'
 }
 
-tasks.named('test') {
-	useJUnitPlatform()
-}
-
-// === DESHABILITAR bootJar ===
-bootJar {
-	enabled = false
-}
-
-jar {
-	enabled = true
-	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-	archiveFileName = "${rootProject.name}-${version}.jar"
-
-	// COPIA TODO EL CONTENIDO DE META-INF, CON SUBDIRECTORIOS
-	into('META-INF') {
-		from('src/main/resources/META-INF')
-	}
-}
-
-// === PUBLICACIÓN: FORZAR EL JAR CORRECTO ===
 publishing {
 	publications {
 		mavenJava(MavenPublication) {
-			// Usa el JAR generado por 'jar' (no el -plain.jar)
-			artifact(tasks.jar)
-
-			groupId = project.group
-			artifactId = rootProject.name
-			version = project.version
-
-			pom {
-				name = 'Monitoring Tool Commons Library'
-				description = 'Starter library exposing health and metrics endpoints'
-				url = 'https://github.com/JulianSanti28/monitoring-tool-commons-library'
-				licenses {
-					license {
-						name = 'MIT License'
-						url = 'https://opensource.org/licenses/MIT'
-					}
-				}
-				developers {
-					developer {
-						id = 'JulianSanti28'
-						name = 'Julian Santiago Martinez Trullo'
-					}
-				}
-				scm {
-					connection = 'scm:git:git://github.com/JulianSanti28/monitoring-tool-commons-library.git'
-					developerConnection = 'scm:git:ssh://github.com:JulianSanti28/monitoring-tool-commons-library.git'
-					url = 'https://github.com/JulianSanti28/monitoring-tool-commons-library'
-				}
-			}
+			from components.java
 		}
 	}
 }
