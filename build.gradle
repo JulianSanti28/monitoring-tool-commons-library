@@ -59,3 +59,11 @@ publishing {
 		}
 	}
 }
+
+tasks.named('jar') {
+	archiveBaseName.set('monitoring-tool-commons-library')
+	archiveVersion.set(project.version)
+}
+
+
+
