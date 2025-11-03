@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'com.github.JulianSanti28'
-version = '0.0.9'
+version = '0.0.10'
 description = 'Monitoring Starter Library - Auto-exposes /health and /metrics endpoints'
 
 java {
@@ -37,6 +37,7 @@ bootJar {
 // === FORZAR JAR CON NOMBRE CORRECTO ===
 jar {
 	enabled = true
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 	archiveFileName = "${rootProject.name}-${version}.jar"
 
 	// Asegurar que META-INF/spring se incluya
