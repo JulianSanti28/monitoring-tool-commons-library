@@ -1,12 +1,10 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.2.2'
 	id 'io.spring.dependency-management' version '1.1.7'
-	id 'maven-publish'
 }
 
 group = 'co.edu.ucp.monitoring.tool.commons.library.ms'
-version = '0.0.2'
+version = '0.0.3'
 description = 'Monitoring Starter Library - Auto-exposes /health and /metrics endpoints'
 
 java {
@@ -27,53 +25,4 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
-}
-
-tasks.named('bootJar') {
-	enabled = false
-}
-
-publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			from components.java
-			groupId = project.group
-			artifactId = 'monitoring-starter'
-			version = project.version
-
-			pom {
-				name.set('Monitoring Starter')
-				description.set('Auto-exposes /health and /metrics endpoints for Spring Boot microservices')
-				url.set('https://github.com/JulianSantiagoDev/monitoring-starter')
-				licenses {
-					license {
-						name.set('Apache License 2.0')
-						url.set('http://www.apache.org/licenses/LICENSE-2.0')
-					}
-				}
-				developers {
-					developer {
-						id.set('juliansantiago')
-						name.set('Julian Santiago Martínez')
-						email.set('julian.santiago@example.com')
-					}
-				}
-			}
-		}
-	}
-
-	repositories {
-		// ⚡ JitPack no requiere repositorio adicional
-		// Para GitHub Packages, descomenta y configura tus credenciales:
-		/*
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/TU_USUARIO/monitoring-starter")
-            credentials {
-                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME_GITHUB")
-                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN_GITHUB")
-            }
-        }
-        */
-	}
 }
