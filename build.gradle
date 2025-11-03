@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'co.edu.ucp.monitoring.tool.commons.library.ms'
-version = '0.0.1'
+version = '0.0.2'
 description = 'Monitoring Starter Library - Auto-exposes /health and /metrics endpoints'
 
 java {
