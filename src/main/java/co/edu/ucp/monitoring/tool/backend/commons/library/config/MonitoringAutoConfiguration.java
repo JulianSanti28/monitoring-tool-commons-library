@@ -3,16 +3,15 @@ package co.edu.ucp.monitoring.tool.backend.commons.library.config;
 import co.edu.ucp.monitoring.tool.backend.commons.library.controller.HealthController;
 import co.edu.ucp.monitoring.tool.backend.commons.library.controller.MetricsController;
 import co.edu.ucp.monitoring.tool.backend.commons.library.service.SystemMetricsService;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
+import jakarta.annotation.PostConstruct;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 /**
  * Auto-configuration class for the Monitoring Tool Commons Library.
- * <p>
+ *
  * Provides beans for system metrics service, health controller, and metrics controller.
  * This allows any Spring Boot application that includes this library to automatically
  * expose /health and /metrics endpoints.
@@ -20,11 +19,16 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MonitoringAutoConfiguration {
 
+    private static final Logger log = LoggerFactory.getLogger(MonitoringAutoConfiguration.class);
+
+    @PostConstruct
+    public void init() {
+        log.info("🚀✨ Exponiendo servicios de monitoreo desde Commons Library 🛠️🔍");
+        log.info("💚 Endpoints disponibles: /health 🩺, /metrics 📊");
+    }
 
     /**
      * Provides a SystemMetricsService bean.
-     *
-     * @return a new SystemMetricsService instance
      */
     @Bean
     public SystemMetricsService systemMetricsService() {
@@ -33,8 +37,6 @@ public class MonitoringAutoConfiguration {
 
     /**
      * Provides a HealthController bean.
-     *
-     * @return a new HealthController instance
      */
     @Bean
     public HealthController healthController() {
@@ -43,9 +45,6 @@ public class MonitoringAutoConfiguration {
 
     /**
      * Provides a MetricsController bean using the provided SystemMetricsService.
-     *
-     * @param systemMetricsService the service used to collect system metrics
-     * @return a new MetricsController instance
      */
     @Bean
     public MetricsController metricsController(SystemMetricsService systemMetricsService) {
