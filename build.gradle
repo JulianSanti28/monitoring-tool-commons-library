@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'com.github.JulianSanti28'
-version = '0.0.10'
+version = '0.0.11'
 description = 'Monitoring Starter Library - Auto-exposes /health and /metrics endpoints'
 
 java {
@@ -34,15 +34,14 @@ bootJar {
 	enabled = false
 }
 
-// === FORZAR JAR CON NOMBRE CORRECTO ===
 jar {
 	enabled = true
 	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 	archiveFileName = "${rootProject.name}-${version}.jar"
 
-	// Asegurar que META-INF/spring se incluya
-	into('META-INF/spring') {
-		from('src/main/resources/META-INF/spring')
+	// COPIA TODO EL CONTENIDO DE META-INF, CON SUBDIRECTORIOS
+	into('META-INF') {
+		from('src/main/resources/META-INF')
 	}
 }
 
