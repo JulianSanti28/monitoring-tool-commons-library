@@ -6,13 +6,8 @@ plugins {
 }
 
 group = 'com.github.JulianSanti28'
-version = '0.0.4'
+version = '0.0.5'
 description = 'Monitoring Starter Library - Auto-exposes /health and /metrics endpoints'
-
-repositories {
-	mavenCentral()
-	maven { url 'https://jitpack.io' }
-}
 
 java {
 	toolchain {
@@ -20,6 +15,10 @@ java {
 	}
 	withSourcesJar()
 	withJavadocJar()
+}
+
+repositories {
+	mavenCentral()
 }
 
 dependencies {
@@ -32,4 +31,19 @@ tasks.named('test') {
 
 tasks.named('bootJar') {
 	enabled = false
+}
+
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			from components.java
+			groupId = project.group
+			artifactId = 'monitoring-tool-commons-library'
+			version = project.version
+			pom {
+				name.set('Monitoring Tool Commons Library')
+				description.set('Starter library exposing health and metrics endpoints')
+			}
+		}
+	}
 }
