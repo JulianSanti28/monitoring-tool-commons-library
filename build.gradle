@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'com.github.JulianSanti28'
-version = '0.0.8'
+version = '0.0.9'
 description = 'Monitoring Starter Library - Auto-exposes /health and /metrics endpoints'
 
 java {
@@ -29,24 +29,31 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
+// === DESHABILITAR bootJar ===
 bootJar {
 	enabled = false
 }
 
+// === FORZAR JAR CON NOMBRE CORRECTO ===
 jar {
 	enabled = true
-	archiveFileName = "${project.name}-${project.version}.jar"  // <-- FORZAR NOMBRE
+	archiveFileName = "${rootProject.name}-${version}.jar"
+
+	// Asegurar que META-INF/spring se incluya
+	into('META-INF/spring') {
+		from('src/main/resources/META-INF/spring')
+	}
 }
 
-// === Publicación Maven ===
+// === PUBLICACIÓN: FORZAR EL JAR CORRECTO ===
 publishing {
 	publications {
 		mavenJava(MavenPublication) {
-			// Usar el JAR generado por la tarea 'jar'
-			artifact jar
+			// Usa el JAR generado por 'jar' (no el -plain.jar)
+			artifact(tasks.jar)
 
 			groupId = project.group
-			artifactId = project.name
+			artifactId = rootProject.name
 			version = project.version
 
 			pom {
