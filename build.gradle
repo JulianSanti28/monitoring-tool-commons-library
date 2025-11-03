@@ -1,11 +1,18 @@
 plugins {
 	id 'java'
+	id 'org.springframework.boot' version '3.2.2'
 	id 'io.spring.dependency-management' version '1.1.7'
+	id 'maven-publish'
 }
 
-group = 'co.edu.ucp.monitoring.tool.commons.library.ms'
-version = '0.0.3'
+group = 'com.github.JulianSanti28'
+version = '0.0.4'
 description = 'Monitoring Starter Library - Auto-exposes /health and /metrics endpoints'
+
+repositories {
+	mavenCentral()
+	maven { url 'https://jitpack.io' }
+}
 
 java {
 	toolchain {
@@ -15,14 +22,14 @@ java {
 	withJavadocJar()
 }
 
-repositories {
-	mavenCentral()
-}
-
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-web:3.2.2'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+tasks.named('bootJar') {
+	enabled = false
 }
