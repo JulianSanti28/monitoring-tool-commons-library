@@ -24,7 +24,7 @@ public class HealthController {
      *
      * @return a Map containing the status and the current timestamp
      */
-    @GetMapping("/health")
+    @GetMapping("/monitoring-commons/health")
     public Map<String, Object> health() {
         return Map.of(
                 "status", "UP",

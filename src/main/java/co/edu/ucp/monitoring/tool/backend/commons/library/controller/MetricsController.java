@@ -28,7 +28,7 @@ public class MetricsController {
      *
      * @return a Map of system and JVM metrics
      */
-    @GetMapping("/metrics")
+    @GetMapping("/monitoring-commons/metrics")
     public Map<String, Object> metrics() {
         return systemMetricsService.collectMetrics();
     }
