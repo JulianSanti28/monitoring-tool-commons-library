@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'com.github.JulianSanti28'
-version = '0.0.6'
+version = '0.0.7'  // <-- Cambia aquí también
 description = 'Monitoring Starter Library - Auto-exposes /health and /metrics endpoints'
 
 java {
@@ -17,53 +17,61 @@ java {
 	withJavadocJar()
 }
 
-// Repositorios para dependencias
 repositories {
 	mavenCentral()
 }
 
-// Dependencias
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web:3.2.2'
 }
 
-// Configuración de tests
 tasks.named('test') {
 	useJUnitPlatform()
 }
 
-// Evitar que Spring Boot cree un JAR ejecutable
-tasks.named('bootJar') {
+// === CLAVE: Deshabilitar bootJar y renombrar el JAR ===
+bootJar {
 	enabled = false
 }
 
-// Forzar nombre correcto del JAR principal
-tasks.named('jar') {
+jar {
 	enabled = true
-	archiveBaseName.set('monitoring-tool-commons-library')
-	archiveVersion.set(project.version)
+	archiveFileName = "${project.name}-${project.version}.jar"  // <-- FORZAR NOMBRE
 }
 
-// Configuración de publicación Maven
+// === Publicación Maven ===
 publishing {
 	publications {
 		mavenJava(MavenPublication) {
-			from components.java
+			// Usar el JAR generado por la tarea 'jar'
+			artifact jar
+
 			groupId = project.group
-			artifactId = 'monitoring-tool-commons-library'
+			artifactId = project.name
 			version = project.version
+
 			pom {
-				name.set('Monitoring Tool Commons Library')
-				description.set('Starter library exposing health and metrics endpoints')
+				name = 'Monitoring Tool Commons Library'
+				description = 'Starter library exposing health and metrics endpoints'
+				url = 'https://github.com/JulianSanti28/monitoring-tool-commons-library'
+				licenses {
+					license {
+						name = 'MIT License'
+						url = 'https://opensource.org/licenses/MIT'
+					}
+				}
+				developers {
+					developer {
+						id = 'JulianSanti28'
+						name = 'Julian Santiago Martinez Trullo'
+					}
+				}
+				scm {
+					connection = 'scm:git:git://github.com/JulianSanti28/monitoring-tool-commons-library.git'
+					developerConnection = 'scm:git:ssh://github.com:JulianSanti28/monitoring-tool-commons-library.git'
+					url = 'https://github.com/JulianSanti28/monitoring-tool-commons-library'
+				}
 			}
 		}
 	}
 }
-
-tasks.named('jar') {
-	archiveBaseName.set('monitoring-tool-commons-library')
-	archiveVersion.set(project.version)
-}
-
-
-
